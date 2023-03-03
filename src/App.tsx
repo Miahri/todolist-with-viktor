@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import {TaskType, Todolist} from "./Todolist";
+import {addTaskAC, changeStatusAC, removeTaskAC, taskReducer} from "./reducers/TaskReducers";
 
 export type FilterType = 'all' | 'active' | 'completed'
 
 function App() {
-    let [tasks, setTasks] = useState<Array<TaskType>>([
+    let [tasks, tasksDispatch] = useReducer(taskReducer, [
         {id: v1(), title: 'HTML', isDone: true},
         {id: v1(), title: 'CSS', isDone: true},
         {id: v1(), title: 'React', isDone: false},
@@ -16,13 +17,11 @@ function App() {
     let [filter, setFilter] = useState<FilterType>('all')
 
     const addTask = (title: string) => {
-        let newTask: TaskType = {id: v1(), title: title, isDone: false};
-        setTasks([...tasks, newTask]);
+        tasksDispatch(addTaskAC(title));
     }
 
     const removeTask = (id: string) => {
-        let result = tasks.filter((t: TaskType) => t.id !== id);
-        setTasks(result);
+        tasksDispatch(removeTaskAC(id));
     }
 
     const changeFilter = (filter: FilterType) => {
@@ -30,7 +29,7 @@ function App() {
     }
 
     const changeStatus = (id: string, status: boolean) => {
-        setTasks(tasks.map((t:TaskType) => t.id === id ? {...t, isDone: status} : t));
+        tasksDispatch(changeStatusAC(id, status));
     }
 
     let filteredTasks = tasks;
