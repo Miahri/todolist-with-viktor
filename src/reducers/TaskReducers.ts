@@ -3,13 +3,13 @@ import {v1} from "uuid";
 
 type MainType = RemoveTaskACType | AddTaskACType | ChangeStatusACType
 
-export const taskReducer = (state: TaskType[], action: MainType): TaskType[] => {
+export const taskReducer = (state: any, action: MainType): TaskType[] => {
     switch (action.type) {
         case 'REMOVE-TASK':
             return state.filter((t: TaskType) => t.id !== action.payload.id);
         case 'ADD-TASK':
             let newTask: TaskType = {id: v1(), title: action.payload.title, isDone: false};
-            return [...state, newTask];
+            return [newTask, ...state];
         case 'CHANGE-STATUS':
             return state.map((t:TaskType) => t.id === action.payload.id ? {...t, isDone: action.payload.status} : t);
         default:
