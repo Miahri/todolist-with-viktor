@@ -2,7 +2,7 @@ import React, {useReducer, useState} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import {TaskType, Todolist} from "./Todolist";
-import {addTaskAC, changeStatusAC, removeTaskAC, taskReducer} from "./reducers/TaskReducers";
+import {addTaskAC, changeStatusAC, removeTaskAC, taskReducer} from "./state/TaskReducers";
 import {AddItemForm} from "./AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed';
