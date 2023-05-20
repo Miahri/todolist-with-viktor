@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterType} from "./App";
 import {EditableSpan} from "./EditableSpan";
 import {AddItemForm} from "./AddItemForm";
@@ -25,7 +25,10 @@ type TodolistPropsType = {
 
 export const Todolist = (props: TodolistPropsType) => {
 
-    const addTask = (title: string) => props.addTask(title, props.id);
+    const addTask = (title: string) => {
+        console.log('add task')
+        props.addTask(title, props.id);
+    }
     const changeFilter = (filter: FilterType) => props.changeFilter(filter, props.id);
     const onChangeTLTitle = (title: string) => props.onChangeTLTitle(title, props.id);
     const deleteTodoList = () => props.deleteTodoList(props.id);
@@ -35,11 +38,16 @@ export const Todolist = (props: TodolistPropsType) => {
         tasksForTodolist = <span>Your list is empty!</span>
     } else {
         tasksForTodolist = props.tasks.map((t: TaskType) => {
-            const removeTask = () => props.removeTask(t.id, props.id);
+            const removeTask = () => {
+                console.log('remove task')
+                props.removeTask(t.id, props.id)
+            };
             const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+                console.log('change status')
                 props.changeStatus(t.id, e.currentTarget.checked, props.id)
             }
             const onChangeTaskTitle = (title: string) => {
+                console.log('change task title')
                 props.onChangeTaskTitle(t.id, title, props.id)
             }
 

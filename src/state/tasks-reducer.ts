@@ -1,6 +1,6 @@
 import {AllTasksType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
+import {AddTodolistActionType, RemoveTodolistActionType, todoListId1, todoListId2} from "./todolist-reducer";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>
 export type AddTaskActionType = ReturnType<typeof addTaskAC>
@@ -10,7 +10,18 @@ export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>
 export type TasksMainType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusActionType | ChangeTaskTitleActionType
     | AddTodolistActionType | RemoveTodolistActionType;
 
-const initialState: AllTasksType = {}
+const initialState: AllTasksType = {
+    [todoListId1]: [
+        {id: v1(), title: 'HTML', isDone: true},
+        {id: v1(), title: 'CSS', isDone: true},
+        {id: v1(), title: 'React', isDone: false},
+        {id: v1(), title: 'Redux', isDone: false},
+    ],
+    [todoListId2]: [
+        {id: v1(), title: 'Milk', isDone: true},
+        {id: v1(), title: 'Book', isDone: false},
+    ]
+}
 
     export const tasksReducer = (state = initialState, action: TasksMainType): AllTasksType => {
     switch (action.type) {

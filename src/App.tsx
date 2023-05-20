@@ -1,8 +1,7 @@
-import React, {useReducer, useState} from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import {TaskType, Todolist} from "./Todolist";
-import {addTaskAC, changeStatusAC, removeTaskAC, taskReducer} from "./state/TaskReducers";
 import {AddItemForm} from "./AddItemForm";
 
 export type FilterType = 'all' | 'active' | 'completed';
@@ -39,38 +38,26 @@ function App() {
         ]
     })
 
-    /*let [tasks, tasksDispatch] = useReducer(taskReducer, [
-        {id: v1(), title: 'HTML', isDone: true},
-        {id: v1(), title: 'CSS', isDone: true},
-        {id: v1(), title: 'React', isDone: false},
-        {id: v1(), title: 'Redux', isDone: false},
-    ])*/
-
-    /*let [filter, setFilter] = useState<FilterType>('all')*/
-
     const addTask = (title: string, todolistId: string) => {
-        /*tasksDispatch(addTaskAC(title));*/
-        setTasks({[todolistId]: [{id: v1(), title: title, isDone: false}, ...tasks[todolistId]], ...tasks});
+        setTasks({...tasks, [todolistId]: [{id: v1(), title: title, isDone: false}, ...tasks[todolistId]]});
     }
 
     const removeTask = (id: string, todolistId: string) => {
-        /*tasksDispatch(removeTaskAC(id));*/
-        setTasks({[todolistId]: tasks[todolistId].filter((t: TaskType) => t.id !== id), ...tasks});
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter((t: TaskType) => t.id !== id)});
     }
 
     const changeFilter = (filter: FilterType, todolistId: string) => {
-        /*setFilter(filter);*/
         setTodolist(todoLists.map((tl: TodolistType) => tl.id === todolistId ? {...tl, filter} : tl))
     }
 
     const changeStatus = (id: string, status: boolean, todolistId: string) => {
         /*tasksDispatch(changeStatusAC(id, status));*/
-        setTasks({[todolistId]: tasks[todolistId].map((t: TaskType) => t.id === id ? {...t, isDone: status} : t)
-            , ...tasks});
+        setTasks({...tasks, [todolistId]: tasks[todolistId]
+                .map((t: TaskType) => t.id === id ? {...t, isDone: status} : t)});
     }
 
     const onChangeTaskTitle = (id: string, title: string, todolistId: string) => {
-        setTasks({[todolistId]: tasks[todolistId].map((t: TaskType) => t.id === id ? {...t, title} : t), ...tasks});
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map((t: TaskType) => t.id === id ? {...t, title} : t)});
     }
 
     const onChangeTLTitle = (title: string, todoListId: string) => {

@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
 import {Button, TextField} from "@material-ui/core";
 
 type AddItemFormProps = {
     addItem: (title: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormProps) => {
+export const AddItemForm = memo((props: AddItemFormProps) => {
     const [inputValue, setValue] = useState('');
     const [error, setError] = useState<null | string>(null);
 
@@ -17,8 +17,12 @@ export const AddItemForm = (props: AddItemFormProps) => {
             setValue('');
         }
     };
-    const inputValueChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value);
+    const inputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (error) setError(null);
+        setValue(e.currentTarget.value);
+    }
     const keyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (error) setError(null);
         if (e.code === 'Enter') {
             if (inputValue.trim() === '') {
                 setError('Title is required');
@@ -42,7 +46,7 @@ export const AddItemForm = (props: AddItemFormProps) => {
             <Button variant="contained" color="primary" onClick={addTask}>+</Button>
         </div>
     )
-}
+})
 
 /*
 <input value={inputValue}
