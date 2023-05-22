@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {changeFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolist-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {FilterButton} from "./FilterButton";
 
 export type TaskType = {
     id: string
@@ -20,6 +21,8 @@ type TodolistPropsType = {
 }
 
 export const TodolistWithRedux = memo((props: TodolistPropsType) => {
+    console.log("Todolist");
+
     let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
     let dispatch = useDispatch();
 
@@ -27,8 +30,16 @@ export const TodolistWithRedux = memo((props: TodolistPropsType) => {
         dispatch(addTaskAC(title, props.id))
     }, [dispatch]);
 
-    const changeFilter = useCallback((filter: FilterType) => {
-        dispatch(changeFilterAC(props.id, filter))
+    const changeFilterAll = useCallback(() => {
+        dispatch(changeFilterAC(props.id, 'all'))
+    }, [dispatch]);
+
+    const changeFilterActive = useCallback(() => {
+        dispatch(changeFilterAC(props.id, 'active'))
+    }, [dispatch]);
+
+    const changeFilterCompleted = useCallback(() => {
+        dispatch(changeFilterAC(props.id, 'completed'))
     }, [dispatch]);
 
     const onChangeTLTitle = useCallback((title: string) => {
@@ -75,15 +86,18 @@ export const TodolistWithRedux = memo((props: TodolistPropsType) => {
                 </ul>
             </div>
             <div>
-                <button className={props.filter === 'all' ? 'active-filter' : ''}
-                        onClick={() => changeFilter('all')}>All
-                </button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''}
-                        onClick={() => changeFilter('active')}>Active
-                </button>
-                <button className={props.filter === 'completed' ? 'active-filter' : ''}
-                        onClick={() => changeFilter('completed')}>Completed
-                </button>
+                <FilterButton name={'All'}
+                              variant={props.filter === 'all' ? "contained" : 'text'}
+                              color={'inherit'}
+                              changeFilter={changeFilterAll} />
+                <FilterButton name={'Active'}
+                              variant={props.filter === 'active' ? "contained" : 'text'}
+                              color={'primary'}
+                              changeFilter={changeFilterActive} />
+                <FilterButton name={'Completed'}
+                              variant={props.filter === 'completed' ? "contained" : 'text'}
+                              color={'secondary'}
+                              changeFilter={changeFilterCompleted} />
             </div>
         </div>
     )
