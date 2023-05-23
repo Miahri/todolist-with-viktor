@@ -16,12 +16,10 @@ export const FilterButton = memo((props: FilterButtonType) => {
     }, [props.changeFilter])
 
     return (
-        <div>
-            <Button variant={props.variant}
-                    color={props.color}
-                    onClick={onChangeFilter}>
-                {props.name}
-            </Button>
-        </div>
+        <Button variant={props.variant}
+                color={props.color}
+                onClick={onChangeFilter}>
+            {props.name}
+        </Button>
     );
 });

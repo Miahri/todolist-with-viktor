@@ -1,12 +1,13 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import {FilterType} from "./App";
 import {EditableSpan} from "./EditableSpan";
 import {AddItemForm} from "./AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 import {changeFilterAC, changeTodolistTitleAC, removeTodolistAC} from "./state/todolist-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {addTaskAC} from "./state/tasks-reducer";
 import {FilterButton} from "./FilterButton";
+import {Task} from "./Task";
 
 export type TaskType = {
     id: string
@@ -64,23 +65,10 @@ export const TodolistWithRedux = memo((props: TodolistPropsType) => {
             <div>
                 <ul>
                     {tasksForTodolist.map((t: TaskType) => {
-                        const removeTask = () => dispatch(removeTaskAC(t.id, props.id));
-                        const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-                            dispatch(changeTaskStatusAC(t.id, e.currentTarget.checked, props.id))
-                        }
-                        const onChangeTaskTitle = (title: string) => {
-                            dispatch(changeTaskTitleAC(t.id, title, props.id))
-                        }
-
                         return (
-                            <li key={t.id}>
-                                <input type="checkbox"
-                                       checked={t.isDone}
-                                       onChange={changeStatus}
-                                       className={t.isDone ? 'is-done' : ''}/>
-                                <EditableSpan title={t.title} onChange={onChangeTaskTitle}/>
-                                <button onClick={removeTask}>x</button>
-                            </li>
+                            <Task key={t.id}
+                                  task={t}
+                                  todolistId={props.id}/>
                         )
                     })}
                 </ul>
