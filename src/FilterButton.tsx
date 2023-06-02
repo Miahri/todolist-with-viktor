@@ -1,5 +1,5 @@
 import React, {memo, useCallback} from 'react';
-import {Button} from "@material-ui/core";
+import {Button} from "@mui/material";
 
 type FilterButtonType = {
     name: 'All' | 'Active' | 'Completed'

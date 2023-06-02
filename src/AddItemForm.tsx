@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from "react";
-import {Button, TextField} from "@material-ui/core";
+import {Button, TextField} from "@mui/material";
 
 type AddItemFormProps = {
     addItem: (title: string) => void
@@ -39,6 +39,7 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
         <div>
             <TextField
                 id="outlined-error-helper-text"
+                error={!!error}
                 value={inputValue}
                 onChange={inputValueChange}
                 onKeyPress={keyPressHandler}
